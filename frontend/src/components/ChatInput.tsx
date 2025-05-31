@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Paperclip, Send } from 'lucide-react';
+import { FileDisplay } from './FileDisplay';
 
 interface ChatInputProps {
   text: string;
@@ -20,7 +21,7 @@ export const ChatInput = ({ text, file, onTextChange, onFileChange, onSubmit }: 
       <textarea
         className="flex-1 resize-none border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
         rows={2}
-        placeholder="Type out your document here..."
+        placeholder="Type out anything you want here"
         value={text}
         onChange={(e) => onTextChange(e.target.value)}
       />
@@ -41,12 +42,8 @@ export const ChatInput = ({ text, file, onTextChange, onFileChange, onSubmit }: 
         <Send className="w-6 h-6 mr-1" /> Send
       </Button>
     </div>
-    
-{file && (
-  <p className="text-sm text-gray-500 mt-1 truncate max-w-xs">
-    Selected file: <span className="font-medium">{file.name}</span>
-  </p>
-)}
+
+    <FileDisplay file={file} onFileChange={onFileChange}></FileDisplay>
     </>
   );
 };
