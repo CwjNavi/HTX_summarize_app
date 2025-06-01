@@ -23,33 +23,32 @@ function App() {
 
   const [textInput, setTextInput] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
-  const [currentQuery, setCurrentQuery] = useState<string>('')
   const [summary, setSummary] = useState<string | null>('')
   const [nationalities, setNationalities] = useState<string | null>('')
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async () => {
-    alert('submitting!')
+    setLoading(true)
     const html = await convertDocxToHtml(file)
-    setCurrentQuery(textInput.concat(html))
+    const updatedQuery = textInput.concat(html)
+
+    console.log(updatedQuery)
 
     try {
-      const summary_response = await summarize({ text: currentQuery })
+      const summary_response = await summarize({ text: updatedQuery })
       console.log(summary_response)
       setSummary(summary_response['summary'])
-    } catch (err) {
-      console.error('Failed to send data', err)
-    }
-
-    try {
-      const find_nationalities_response = await find_nationalities({ text: currentQuery })
+      const find_nationalities_response = await find_nationalities({ text: updatedQuery })
       console.log(find_nationalities_response)
       setNationalities(find_nationalities_response['nationalities'])
+
     } catch (err) {
       console.error('Failed to send data', err)
-    }    
-
-    setTextInput('')
-    setFile(null)
+    } finally {
+      setTextInput('')
+      setFile(null)
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,8 +58,8 @@ function App() {
         <p className='text-2xl'>Hi👋, I am Sammy! Give me some text or a file and I will summarize it for you!</p>
 
         <ChatInput text={textInput} file={file} onTextChange={setTextInput} onFileChange={setFile} onSubmit={onSubmit}></ChatInput>
-        <Summary summary={summary}></Summary>
-        <Nationalities nationalities={nationalities}></Nationalities>
+        <Summary summary={summary} isLoading={loading}></Summary>
+        <Nationalities nationalities={nationalities} isLoading={loading}></Nationalities>
       </div>
     </>
   )

@@ -4,15 +4,18 @@ interface Payload {
   text: string
 }
 
-interface ResponseData {
-  success: boolean
-  message: string
+interface SummaryResponse {
+  summary: string
 }
 
-export const summarize = async (payload: Payload): Promise<ResponseData> => {
+interface NationalitiesResponse {
+  nationalities: string
+}
+
+export const summarize = async (payload: Payload): Promise<SummaryResponse> => {
   // summarization
   try {
-    const response = await axios.post<ResponseData>('http://127.0.0.1:8000/summarize', payload)
+    const response = await axios.post<SummaryResponse>('http://127.0.0.1:8000/summarize', payload)
     return response.data
   } catch (error) {
     console.error('Error sending data:', error)
@@ -20,10 +23,10 @@ export const summarize = async (payload: Payload): Promise<ResponseData> => {
   }
 }
 
-export const find_nationalities = async (payload: Payload): Promise<ResponseData> => {
+export const find_nationalities = async (payload: Payload): Promise<NationalitiesResponse> => {
   // summarization
   try {
-    const response = await axios.post<ResponseData>('http://127.0.0.1:8000/find_nationalities', payload)
+    const response = await axios.post<NationalitiesResponse>('http://127.0.0.1:8000/find_nationalities', payload)
     return response.data
   } catch (error) {
     console.error('Error sending data:', error)
