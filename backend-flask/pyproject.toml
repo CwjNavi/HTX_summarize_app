@@ -1,5 +1,5 @@
 [project]
-name = "htx-backend"
+name = "backend-flask"
 version = "0.1.0"
 description = ""
 authors = [
@@ -8,15 +8,14 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "fastapi (>=0.115.12,<0.116.0)",
-    "python-dotenv (>=1.1.0,<2.0.0)",
+    "flask (>=3.1.1,<4.0.0)",
     "mistralai (>=1.8.1,<2.0.0)",
-    "mangum (>=0.19.0,<0.20.0)",
-    "uvicorn (>=0.34.3,<0.35.0)"
+    "aws-wsgi (>=0.2.7,<0.3.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)"
 ]
 
 [tool.poetry]
-packages = [{include = "htx_backend", from = "src"}]
+packages = [{include = "backend_flask", from = "src"}]
 
 
 [build-system]

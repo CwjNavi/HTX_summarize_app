@@ -27,7 +27,7 @@ SYSTEM_ANALYZE_PROMPT = (
 )
 
 app = FastAPI()
-handler = Mangum(app)
+
 
 # Allow requests from your frontend (e.g. React dev server)
 origins = [
@@ -84,6 +84,8 @@ def analyze(payload: dict):
         ]
     )
     return {"analysis": response.choices[0].message.content}
+
+handler = Mangum(app)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8080)
