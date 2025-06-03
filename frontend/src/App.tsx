@@ -15,7 +15,7 @@ const convertDocxToHtml = async (file: File | null) => {
   const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
   const html = result.value; // The converted HTML string
   const messages = result.messages; // Any warnings or errors
-  console.log(messages)
+  // console.log(messages)
   return html
 };
 
@@ -28,7 +28,7 @@ function App() {
   const [summary, setSummary] = useState<string | null>('');
   const [nationalities, setNationalities] = useState<string | null>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>('POST http://localhost:5173/undefined/summarize 404 (Not Found)');
+  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async () => {
 
@@ -42,15 +42,15 @@ function App() {
     const html = await convertDocxToHtml(file)
     const updatedQuery = textInput.concat(html)
 
-    console.log(updatedQuery)
+    // console.log(updatedQuery)
     setCurrentQuery(updatedQuery)
 
     try {
       const summary_response = await summarize({ text: updatedQuery })
-      console.log(summary_response)
+      // console.log(summary_response)
       setSummary(summary_response['summary'])
       const find_nationalities_response = await find_nationalities({ text: updatedQuery })
-      console.log(find_nationalities_response)
+      // console.log(find_nationalities_response)
       setNationalities(find_nationalities_response['nationalities'])
 
     } catch (err) {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_AWS_BASE_URI || 'http://127.0.0.1:8000';
+const BASE_URL = import.meta.env.VITE_AWS_BASE_URI //|| 'http://127.0.0.1:8000';
 
 interface Payload {
   text: string
