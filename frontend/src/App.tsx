@@ -7,18 +7,6 @@ import { Nationalities } from './components/Nationalities'
 import { Summary } from './components/Summary'
 import { ErrorBar } from './components/ErrorBar'
 
-const convertDocxToHtml = async (file: File | null) => {
-  if (file === null) {
-    return ''
-  }
-  const arrayBuffer = await file.arrayBuffer();
-  const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
-  const html = result.value; // The converted HTML string
-  const messages = result.messages; // Any warnings or errors
-  // console.log(messages)
-  return html
-};
-
 
 function App() {
 
@@ -30,13 +18,29 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = async () => {
-
-    const getErrorMessage = (err: unknown): string => {
+  const getErrorMessage = (err: unknown): string => {
       if (err instanceof Error) return err.message;
       if (typeof err === 'string') return err;
       return JSON.stringify(err); // fallback
     }
+
+  const convertDocxToHtml = async (file: File | null) => {
+  if (file === null) {
+    return ''
+  }
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+  const html = result.value; // The converted HTML string
+  const messages = result.messages; // Any warnings or errors
+  // console.log(messages)
+
+  if (messages !== null) {
+    setError(getErrorMessage(messages))
+  }
+  return html
+};
+
+  const onSubmit = async () => {
 
     setLoading(true)
     const html = await convertDocxToHtml(file)
